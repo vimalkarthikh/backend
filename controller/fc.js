@@ -26,7 +26,7 @@ const forgotPassword = async (req, res) => {
     await user.save();
     
     //Send email with reset token  
-     const resetUrl = `https://pswreset.netlify.app/rp/reset/${resetToken}`;
+     const resetUrl = `https://tangerine-pastelito-821d2a.netlify.app/rp/reset/${resetToken}`;
     var transporter = createTransport({
         service: 'gmail',
         secure: true,
