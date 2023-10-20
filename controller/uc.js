@@ -10,5 +10,5 @@ export function getuserdetails(id){
 }
 
 export function generateToken(id){
-    return jwt.sign({id},process.env.SecretKey)
+    return jwt.sign({id},process.env.SecretKey,{expiresIn: 60*60})
 }

@@ -1,6 +1,6 @@
 import express, { Router } from 'express';
 import bcrypt from 'bcrypt';
-import { generateToken, getUserMail } from '../Controller/usercontroler.js';
+import { generateToken, getUserMail } from '../controller/uc.js';
 import { User } from '../models/user.js';
 
 const route=express.Router();

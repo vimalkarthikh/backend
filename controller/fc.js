@@ -3,20 +3,25 @@ import { createTransport } from "nodemailer"
 import crypto from "crypto"
 import bcrypt from "bcrypt"
 import dotenv from "dotenv"
+import jwt from 'jsonwebtoken';
 dotenv.config()
+
+function generateToken(id){
+  return jwt.sign({id},process.env.SecretKey,{expiresIn: 60*60})
+}
 
 // Route to handle "forgot password" request
 const forgotPassword = async (req, res) => {
-    const { email } = req.body;
+    const { email } = req.body; 
     
     // Check if email exists in the database
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
-    
+    //crypto.randomBytes(20).toString('hex');
     // Generate reset token
-    const resetToken = crypto.randomBytes(20).toString('hex');
+    const resetToken = crypto.randomBytes(20).toString('hex');                                                                                                        
     user.resetToken = resetToken;
     await user.save();
     
@@ -35,7 +40,7 @@ const forgotPassword = async (req, res) => {
         from: 'vimalkarthik315@gmail.com',
         to: email,
         subject: "Reset Password",
-        html:`<h1>Reset Password</h1><h2>Click on the link to reset your password</h2><h3>${resetUrl}</h3>`
+        html:`<h1>Reset Password</h1><h1>This Link expires in 2 hours</h1><h2>Click on the link to reset your password</h2><h3>${resetUrl}</h3>`
     };
 
     await transporter.sendMail(mailOptions, function (error, info) {
